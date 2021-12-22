@@ -10,7 +10,8 @@ const postRouter = require("./routes/post");
 const postsRouter = require("./routes/posts");
 const userRouter = require("./routes/user");
 const hashtagRouter = require("./routes/hashtag");
-
+const hpp = require('hpp')
+const helmet = require('helmet')
 const passportConfig = require("./passport");
 const passport = require("passport");
 
@@ -24,12 +25,17 @@ db.sequelize
   .catch(console.error);
 
 passportConfig();
-
-app.use(morgan("dev"));
+if (process.env.NODE_ENV === 'production') {
+  app.use(morgan("combined"));
+  app.use(hpp());
+  app.use(helmet());
+} else {
+  app.use(morgan("dev"));
+}
 
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: ["http://localhost:3000", 'nodebird.com'],
     credentials: true,
   })
 );
