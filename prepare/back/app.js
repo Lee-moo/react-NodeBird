@@ -58,6 +58,6 @@ app.use("/hashtag", hashtagRouter);
 
 // app.use((err, req, res, next) => {});
 
-app.listen(3065, () => {
+app.listen(80, () => {
   console.log("server starging");
 });
